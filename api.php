@@ -12,19 +12,22 @@
   curl_close($curl);
   $decode = json_decode($get,JSON_UNESCAPED_UNICODE);
 
-  $check = true; $i = 0;
-  while ($check == true) {
-    if (ucwords($decode[$i]["country"]) == ucwords($country)) {
-      $cases = $decode[$i]["cases"];
-      $todayCases = $decode[$i]["todayCases"];
-      $deaths = $decode[$i]["deaths"];
-      $todayDeaths = $decode[$i]["todayDeaths"];
-      $recovered = $decode[$i]["recovered"];
-      $critical = $decode[$i]["critical"];
-      $check = false;
-    }else $i++;
-  }
-//
-echo '{"messages": [
+  for ($i=0; $i < 149; $i++) { 
+	if (ucwords($decode[$i]["country"]) == ucwords($country)) {
+		$cases = $decode[$i]["cases"];
+		$todayCases = $decode[$i]["todayCases"];
+		$deaths = $decode[$i]["deaths"];
+		$todayDeaths = $decode[$i]["todayDeaths"];
+		$recovered = $decode[$i]["recovered"];
+		$critical = $decode[$i]["critical"];
+		//
+		echo '{"messages": [
   						{"text": "Cập nhật tình hình hiện tại ở '.ucwords($country).' \n - Tổng số ca: ' . $todayCases . ' \n - Số ca hôm nay: '.$todayCases.' \n - Số người ra đi: ' . $deaths . ' \n - Số người ra đi hôm nay: ' . $todayDeaths . ' \n - Đã bình phục: ' . $recovered . ' \n - Nguy kịch: ' . $critical.'"}
   						]}';
+	  }
+    }
+    //
+    $cases = "";
+    if ($cases == null) {
+      echo '{"messages": [{"text": "Không tìm thấy!"}]}';
+    }
